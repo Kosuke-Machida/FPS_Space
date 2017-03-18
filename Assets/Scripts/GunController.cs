@@ -5,9 +5,11 @@ using UnityEngine;
 public class GunController : MonoBehaviour {
 
 	[SerializeField] private GameObject m_Muzzle;
+	[SerializeField] GameObject m_HitObjectSparkle;
+	[SerializeField] GameObject m_MuzzleSparkle;
 
 	private int m_BulletNum;
-	private int m_BulletLimit = 10;
+	private int m_BulletLimit = 30;
 	private int m_BulletBoxLimit = 150;
 	private float m_CoolTime = 2.0f;
 	private float m_Interval = 2.0f;
@@ -43,8 +45,6 @@ public class GunController : MonoBehaviour {
 		m_BulletNum --;
 		if (Physics.Raycast(ray,out hit)){
 			m_HitPoint = hit.point - ray.direction;
-			GameObject m_HitObjectSparkle = (GameObject)Resources.Load ("Prefabs/HitObjectSparkle");
-			GameObject m_MuzzleSparkle = (GameObject)Resources.Load ("Prefabs/MuzzleSparkle");
 			if (hit.collider) {
 				GameObject HitObjectSparkle = Instantiate (
 					m_HitObjectSparkle,
