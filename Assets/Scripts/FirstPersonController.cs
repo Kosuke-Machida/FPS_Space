@@ -40,6 +40,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_StepCycle;
         private float m_NextStep;
         private bool m_Jumping;
+        private bool m_Squating;
         private AudioSource m_AudioSource;
 
         // Use this for initialization
@@ -61,11 +62,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Update is called once per frame
         private void Update()
         {
+            m_Squating = false;
             RotateView();
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
+            }
+
+            if(Input.GetButton("C")) {
+                m_Camera.transform.position -= new Vector3 (0, 1.2f, 0);
+                m_Squating = true;
             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
@@ -125,7 +132,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_MoveDir += Physics.gravity*m_GravityMultiplier*Time.fixedDeltaTime;
             }
-            m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
+            if (m_Squating) {
+                m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime*0.1f);
+            } else {
+                m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
+            }
 
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
