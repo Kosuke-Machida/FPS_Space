@@ -79,15 +79,7 @@ public class GunController : MonoBehaviour {
 					TargetController m_TargetController = m_TargetBody.GetComponent<TargetController>();
 					ScoreManager m_ScoreManager = m_Player.GetComponent<ScoreManager>();
 					m_TargetController.Damage ();
-					if (m_HitDistance < 0.5f) {
-						m_ScoreManager.AddPoints(50);
-					} else if (m_HitDistance < 1f){
-						m_ScoreManager.AddPoints(30);
-					} else if (m_HitDistance < 2f) {
-						m_ScoreManager.AddPoints(10);
-					} else {
-						m_ScoreManager.AddPoints(5);
-					}
+					m_ScoreManager.AddPoints(m_HitDistance);
 				}
 			}
 		}
