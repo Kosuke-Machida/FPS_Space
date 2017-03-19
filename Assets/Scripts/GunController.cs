@@ -39,13 +39,6 @@ public class GunController : MonoBehaviour {
 			m_Interval += Time.deltaTime;
 		} else {
 			if (Input.GetMouseButtonDown(0) && m_CurrentBulletNum > 0) {
-				m_ShootAudioSource.PlayOneShot (m_ShootAudioSource.clip);
-				GameObject MuzzleSparkle = Instantiate (
-					m_MuzzleSparkle,
-					m_Muzzle.transform.position,
-					Camera.main.transform.rotation
-				);
-				Destroy(MuzzleSparkle, 0.1f);
 				Shoot ();
 				m_Interval = 0;
 			}
@@ -65,6 +58,13 @@ public class GunController : MonoBehaviour {
 		Vector3 cameraCenter = new Vector3(Screen.width/2, Screen.height/2, 0);
 		Ray ray = Camera.main.ScreenPointToRay(cameraCenter);
 		m_CurrentBulletNum --;
+		m_ShootAudioSource.PlayOneShot (m_ShootAudioSource.clip);
+		GameObject MuzzleSparkle = Instantiate (
+			m_MuzzleSparkle,
+			m_Muzzle.transform.position,
+			Camera.main.transform.rotation
+		);
+		Destroy(MuzzleSparkle, 0.1f);
 		if (Physics.Raycast(ray, out hit)){
 			m_HitPoint = hit.point - ray.direction;
 			if (hit.collider) {
@@ -77,16 +77,16 @@ public class GunController : MonoBehaviour {
 				if (hit.collider == m_TargetBody.GetComponent<Collider>()) {
 					m_HitDistance = Vector3.Distance (m_HitPoint, TargetController.m_TargetCenterPosition);
 					TargetController m_TargetController = m_TargetBody.GetComponent<TargetController>();
-					PlayerController m_PlayerController = m_Player.GetComponent<PlayerController>();
+					ScoreManager m_ScoreManager = m_Player.GetComponent<ScoreManager>();
 					m_TargetController.Damage ();
 					if (m_HitDistance < 0.5f) {
-						m_PlayerController.AddPoints(50);
+						m_ScoreManager.AddPoints(50);
 					} else if (m_HitDistance < 1f){
-						m_PlayerController.AddPoints(30);
+						m_ScoreManager.AddPoints(30);
 					} else if (m_HitDistance < 2f) {
-						m_PlayerController.AddPoints(10);
+						m_ScoreManager.AddPoints(10);
 					} else {
-						m_PlayerController.AddPoints(5);
+						m_ScoreManager.AddPoints(5);
 					}
 				}
 			}
