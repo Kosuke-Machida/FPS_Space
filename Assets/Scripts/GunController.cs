@@ -7,6 +7,7 @@ public class GunController : MonoBehaviour {
 	[SerializeField] private GameObject m_Muzzle;
 	[SerializeField] GameObject m_HitObjectSparkle;
 	[SerializeField] GameObject m_MuzzleSparkle;
+	[SerializeField] GameObject m_TargetBody;
 
 	private int m_CurrentBulletNum;
 	private int m_BulletLimit = 30;
@@ -38,13 +39,19 @@ public class GunController : MonoBehaviour {
 		} else {
 			if (Input.GetMouseButtonDown(0) && m_CurrentBulletNum > 0) {
 				m_ShootAudioSource.PlayOneShot (m_ShootAudioSource.clip);
+				GameObject MuzzleSparkle = Instantiate (
+					m_MuzzleSparkle,
+					m_Muzzle.transform.position,
+					Camera.main.transform.rotation
+				);
+				Destroy(MuzzleSparkle, 0.1f);
 				Shoot ();
 				m_Interval = 0;
 			}
 		}
 
 		if (
-			Input.GetKey (KeyCode.R) &&
+		 	Input.GetKey (KeyCode.R) &&
 			m_CurrentBulletBoxNum > 0 &&
 			m_CurrentBulletNum < m_BulletLimit
 		) {
@@ -57,7 +64,7 @@ public class GunController : MonoBehaviour {
 		Vector3 cameraCenter = new Vector3(Screen.width/2, Screen.height/2, 0);
 		Ray ray = Camera.main.ScreenPointToRay(cameraCenter);
 		m_CurrentBulletNum --;
-		if (Physics.Raycast(ray,out hit)){
+		if (Physics.Raycast(ray, out hit)){
 			m_HitPoint = hit.point - ray.direction;
 			if (hit.collider) {
 				GameObject HitObjectSparkle = Instantiate (
@@ -65,13 +72,11 @@ public class GunController : MonoBehaviour {
 					m_HitPoint,
 					Camera.main.transform.rotation
 				);
-				GameObject MuzzleSparkle = Instantiate (
-					m_MuzzleSparkle,
-					m_Muzzle.transform.position,
-					Camera.main.transform.rotation
-				);
-				Destroy(MuzzleSparkle, 0.1f);
 				Destroy(HitObjectSparkle, 0.5f);
+				if (hit.collider == m_TargetBody.GetComponent<Collider>()) {
+					TargetController m_TargetController = m_TargetBody.GetComponent<TargetController>();
+					m_TargetController.Hit ();
+				}
 			}
 		}
 	}
