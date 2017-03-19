@@ -10,9 +10,9 @@ public class GunController : MonoBehaviour {
 	[SerializeField] GameObject m_TargetBody;
 	[SerializeField] GameObject m_Player;
 
-	private int m_CurrentBulletNum;
+	public static int m_CurrentBulletNum;
 	private int m_BulletLimit = 30;
-	private int m_CurrentBulletBoxNum;
+	public static int m_CurrentBulletBoxNum;
 	private int m_BulletBoxLimit = 150;
 	private float m_CoolTime = 0.5f;
 	private float m_Interval;
