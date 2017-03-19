@@ -17,7 +17,6 @@ public class GunController : MonoBehaviour {
 	private float m_Interval;
 	private RaycastHit hit;
 	private Vector3 m_HitPoint;
-	private AudioClip m_AudioClip;
 	private AudioSource m_ShootAudioSource;
 	private AudioSource m_ReloadAudioSource;
 

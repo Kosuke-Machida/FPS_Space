@@ -11,11 +11,14 @@ public class TargetController : MonoBehaviour {
 	private int m_MaxLife = 5;
 	private float m_PassedTimeAfterDead;
 
+	private AudioSource m_AudioSource;
+
 	// Use this for initialization
 	void Start () {
 		m_Life = m_MaxLife;
 		m_PassedTimeAfterDead = 0;
 		anim = m_Target.GetComponent<Animator>();
+		m_AudioSource = m_Target.GetComponent<AudioSource>();
 	}
 
 	// Update is called once per frame
@@ -33,5 +36,6 @@ public class TargetController : MonoBehaviour {
 
 	public void Hit () {
 		m_Life --;
+		m_AudioSource.PlayOneShot (m_AudioSource.clip);
 	}
 }
