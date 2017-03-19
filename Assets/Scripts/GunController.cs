@@ -8,6 +8,7 @@ public class GunController : MonoBehaviour {
 	[SerializeField] GameObject m_HitObjectSparkle;
 	[SerializeField] GameObject m_MuzzleSparkle;
 	[SerializeField] GameObject m_TargetBody;
+	[SerializeField] GameObject m_Player;
 
 	private int m_CurrentBulletNum;
 	private int m_BulletLimit = 30;
@@ -17,6 +18,7 @@ public class GunController : MonoBehaviour {
 	private float m_Interval;
 	private RaycastHit hit;
 	private Vector3 m_HitPoint;
+	private float m_HitDistance;
 	private AudioSource m_ShootAudioSource;
 	private AudioSource m_ReloadAudioSource;
 
@@ -73,8 +75,19 @@ public class GunController : MonoBehaviour {
 				);
 				Destroy(HitObjectSparkle, 0.5f);
 				if (hit.collider == m_TargetBody.GetComponent<Collider>()) {
+					m_HitDistance = Vector3.Distance (m_HitPoint, TargetController.m_TargetCenterPosition);
 					TargetController m_TargetController = m_TargetBody.GetComponent<TargetController>();
-					m_TargetController.Hit ();
+					PlayerController m_PlayerController = m_Player.GetComponent<PlayerController>();
+					m_TargetController.Damage ();
+					if (m_HitDistance < 0.5f) {
+						m_PlayerController.AddPoints(50);
+					} else if (m_HitDistance < 1f){
+						m_PlayerController.AddPoints(30);
+					} else if (m_HitDistance < 2f) {
+						m_PlayerController.AddPoints(10);
+					} else {
+						m_PlayerController.AddPoints(5);
+					}
 				}
 			}
 		}
