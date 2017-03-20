@@ -8,7 +8,6 @@ public class SniperControlller : MonoBehaviour {
 	[SerializeField] int m_SnipeFieldOfView;
 	[SerializeField] int m_NormalFieldOfView;
 
-
 	private bool m_SniperMode;
 	private Camera m_Camera;
 	private SpriteRenderer m_SnipeRederer;
