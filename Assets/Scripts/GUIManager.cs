@@ -9,8 +9,8 @@ public class GUIManager : MonoBehaviour {
 	[SerializeField] private GameObject m_BulletBoxUI;
 	[SerializeField] private GameObject m_PointUI;
 	[SerializeField] private GameObject m_TimerUI;
-	[SerializeField] private GameObject m_Player;
-	[SerializeField] private GameObject m_Gun;
+	[SerializeField] private ScoreManager m_ScoreManager;
+	[SerializeField] private GunController m_GunController;
 
 	private float m_BulletNum;
 	private float m_BulletBoxNum;
@@ -26,9 +26,9 @@ public class GUIManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		m_RemainingTime -= Time.deltaTime;
-		m_BulletNum = m_Gun.GetComponent<GunController>().m_CurrentBulletNum;
-		m_BulletBoxNum = m_Gun.GetComponent<GunController>().m_CurrentBulletBoxNum;
-		m_Score = m_Player.GetComponent<ScoreManager>().m_GamePoint;
+		m_BulletNum = m_GunController.m_CurrentBulletNum;
+		m_BulletBoxNum = m_GunController.m_CurrentBulletBoxNum;
+		m_Score = m_ScoreManager.m_GamePoint;
 		m_BulletUI.GetComponent<Text>().text = "Bullet : " + m_BulletNum;
 		m_BulletBoxUI.GetComponent<Text>().text = "BulletBox : " + m_BulletBoxNum;
 		m_TimerUI.GetComponent<Text>().text = "Time : " + m_RemainingTime.ToString("f1");
