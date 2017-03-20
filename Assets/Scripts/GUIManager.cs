@@ -20,6 +20,8 @@ public class GUIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		m_BulletNum = 30;
+		m_BulletBoxNum = 150;
 		m_RemainingTime = m_TimeLimit;
 	}
 
