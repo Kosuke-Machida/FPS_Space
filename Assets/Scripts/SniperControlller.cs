@@ -5,6 +5,9 @@ using UnityEngine;
 public class SniperControlller : MonoBehaviour {
 
 	[SerializeField] GameObject m_Snipe;
+	[SerializeField] int m_SnipeFieldOfView;
+	[SerializeField] int m_NormalFieldOfView;
+
 
 	private bool m_SniperMode;
 	private Camera m_Camera;
@@ -20,16 +23,14 @@ public class SniperControlller : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (m_SniperMode){
-			if (Input.GetMouseButtonDown(1)) {
+		if (Input.GetMouseButtonDown(1)) {
+			if (m_SniperMode) {
 				m_SniperMode = false;
-				m_Camera.fieldOfView = 60;
+				m_Camera.fieldOfView = m_NormalFieldOfView;
 				m_SnipeRederer.enabled = false;
-			}
-		}else{
-			if (Input.GetMouseButtonDown(1)) {
+			} else {
 				m_SniperMode = true;
-				m_Camera.fieldOfView = 20;
+				m_Camera.fieldOfView = m_SnipeFieldOfView;
 				m_SnipeRederer.enabled = true;
 			}
 		}
