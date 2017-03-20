@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour {
 
-	public static int m_GamePoint;
+	public int m_GamePoint;
 
 	// Use this for initialization
 	void Start () {
