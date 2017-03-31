@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GunController : MonoBehaviour {
-
+public class GunController : Photon.MonoBehaviour {
 	[SerializeField] private GameObject m_Muzzle;
 	[SerializeField] GameObject m_HitObjectSparkle;
 	[SerializeField] GameObject m_MuzzleSparkle;
 	// [SerializeField] GameObject m_TargetBody;
 	[SerializeField] GameObject m_Player;
+	[SerializeField] HpManager m_HpManager;
 
 	public int m_CurrentBulletNum;
 	private int m_BulletLimit = 30;
@@ -81,6 +81,14 @@ public class GunController : MonoBehaviour {
 				// 	m_TargetController.Damage ();
 				// 	m_ScoreManager.AddPoints(m_HitDistance);
 				// }
+				if (hit.collider == m_Player.GetComponent<Collider>()) {
+					PhotonView _photonView = hit.collider.gameObject.GetComponent<PhotonView>();
+					if (!(_photonView.isMine)) {
+      					return;
+    				}
+
+					m_HpManager.Damage();
+				}
 			}
 		}
 	}
