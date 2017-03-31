@@ -7,7 +7,7 @@ public class GunController : MonoBehaviour {
 	[SerializeField] private GameObject m_Muzzle;
 	[SerializeField] GameObject m_HitObjectSparkle;
 	[SerializeField] GameObject m_MuzzleSparkle;
-	[SerializeField] GameObject m_TargetBody;
+	// [SerializeField] GameObject m_TargetBody;
 	[SerializeField] GameObject m_Player;
 
 	public int m_CurrentBulletNum;
@@ -74,13 +74,13 @@ public class GunController : MonoBehaviour {
 					Camera.main.transform.rotation
 				);
 				Destroy(HitObjectSparkle, 0.5f);
-				if (hit.collider == m_TargetBody.GetComponent<Collider>()) {
-					m_HitDistance = Vector3.Distance (m_HitPoint, TargetController.m_TargetCenterPosition);
-					TargetController m_TargetController = m_TargetBody.GetComponent<TargetController>();
-					ScoreManager m_ScoreManager = m_Player.GetComponent<ScoreManager>();
-					m_TargetController.Damage ();
-					m_ScoreManager.AddPoints(m_HitDistance);
-				}
+				// if (hit.collider == m_TargetBody.GetComponent<Collider>()) {
+				// 	m_HitDistance = Vector3.Distance (m_HitPoint, TargetController.m_TargetCenterPosition);
+				// 	TargetController m_TargetController = m_TargetBody.GetComponent<TargetController>();
+				// 	ScoreManager m_ScoreManager = m_Player.GetComponent<ScoreManager>();
+				// 	m_TargetController.Damage ();
+				// 	m_ScoreManager.AddPoints(m_HitDistance);
+				// }
 			}
 		}
 	}
