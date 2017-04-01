@@ -38,7 +38,7 @@ public class GUIManager : MonoBehaviour {
 		m_BulletUI.GetComponent<Text>().text = "Bullet : " + m_BulletNum;
 		m_BulletBoxUI.GetComponent<Text>().text = "BulletBox : " + m_BulletBoxNum;
 		m_TimerUI.GetComponent<Text>().text = "Time : " + m_RemainingTime.ToString("f1");
-		m_HpUI.GetComponent<Text>().text = "Pt : " + m_Hp;
+		m_HpUI.GetComponent<Text>().text = "Hp : " + m_Hp;
 		// m_PointUI.GetComponent<Text>().text = "Pt : " + m_Score;
 	}
 }

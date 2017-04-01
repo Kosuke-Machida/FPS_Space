@@ -27,7 +27,7 @@ public class HpManager : MonoBehaviour {
 
 	public void Damage ()
 	{
-		
+		m_Hp--;
 	}
 
 }
