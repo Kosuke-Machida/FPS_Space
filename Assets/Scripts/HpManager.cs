@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HpManager : MonoBehaviour {
-
+public class HpManager : Photon.MonoBehaviour {
 	// public int m_GamePoint;
 	public int m_Hp;
-
-	// Use this for initialization
 	void Start () {
 		// m_GamePoint = 0;
 		m_Hp = 5;
@@ -25,9 +22,19 @@ public class HpManager : MonoBehaviour {
 	// 	}
 	// }
 
-	public void Damage ()
+	[PunRPC]
+    public void Damage () {
+        m_Hp--;
+        if (m_Hp <= 0) {
+        	Respawn();
+        }
+    }
+
+	void Respawn ()
 	{
-		m_Hp--;
+		print("Dead");
+		transform.position = new Vector3 (0, 0, 0);
+		m_Hp = 5;
 	}
 
 }
