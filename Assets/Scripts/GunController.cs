@@ -8,7 +8,6 @@ public class GunController : Photon.MonoBehaviour {
 	[SerializeField] GameObject m_MuzzleSparkle;
 	// [SerializeField] GameObject m_TargetBody;
 	[SerializeField] GameObject m_Player;
-	[SerializeField] HpManager m_HpManager;
 
 	public int m_CurrentBulletNum;
 	private int m_BulletLimit = 30;
@@ -21,9 +20,8 @@ public class GunController : Photon.MonoBehaviour {
 	private float m_HitDistance;
 	private AudioSource m_ShootAudioSource;
 	private AudioSource m_ReloadAudioSource;
+	private PhotonView _photonView;
 
-
-	// Use this for initialization
 	void Start () {
 		m_CurrentBulletNum = m_BulletLimit;
 		m_CurrentBulletBoxNum = m_BulletBoxLimit;
@@ -31,14 +29,17 @@ public class GunController : Photon.MonoBehaviour {
 		m_ShootAudioSource = m_AudioSources[0];
 		m_ReloadAudioSource = m_AudioSources[1];
 		m_Interval = m_CoolTime;
+		_photonView = GetComponent<PhotonView>();
 	}
 
-	// Update is called once per frame
 	void Update () {
 		if (m_Interval < m_CoolTime) {
 			m_Interval += Time.deltaTime;
 		} else {
-			if (Input.GetMouseButtonDown(0) && m_CurrentBulletNum > 0) {
+			if (Input.GetMouseButtonDown(0) &&
+				m_CurrentBulletNum > 0 &&
+				_photonView.isMine
+				) {
 				Shoot ();
 				m_Interval = 0;
 			}
@@ -47,7 +48,8 @@ public class GunController : Photon.MonoBehaviour {
 		if (
 		 	Input.GetKey (KeyCode.R) &&
 			m_CurrentBulletBoxNum > 0 &&
-			m_CurrentBulletNum < m_BulletLimit
+			m_CurrentBulletNum < m_BulletLimit &&
+			_photonView.isMine
 		) {
 			m_ReloadAudioSource.PlayOneShot (m_ReloadAudioSource.clip);
 			Reload ();
@@ -81,13 +83,17 @@ public class GunController : Photon.MonoBehaviour {
 				// 	m_TargetController.Damage ();
 				// 	m_ScoreManager.AddPoints(m_HitDistance);
 				// }
-				if (hit.collider == m_Player.GetComponent<Collider>()) {
-					PhotonView _photonView = hit.collider.gameObject.GetComponent<PhotonView>();
-					if (!(_photonView.isMine)) {
-      					return;
-    				}
-
-					m_HpManager.Damage();
+				if (hit.collider.tag == "Player") {
+					if (hit.collider.gameObject.GetComponent<PhotonView>().isMine)
+					{
+						return;
+					}
+						PhotonView m_PhotonView = hit.collider.gameObject.GetComponent<PhotonView>();
+						HpManager m_HpManager = hit.collider.gameObject.GetComponent<HpManager>();
+						m_PhotonView.RPC(
+        					"Damage",
+        					PhotonTargets.All
+        				);
 				}
 			}
 		}
