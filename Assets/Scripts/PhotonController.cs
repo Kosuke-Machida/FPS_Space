@@ -7,24 +7,13 @@ public class PhotonController : MonoBehaviour {
     private GameObject _myPlayer;
 
     void Start(){
-        PhotonNetwork.ConnectUsingSettings("0.1");
-    }
-
-    void OnJoinedLobby(){
-        PhotonNetwork.JoinRandomRoom();
-    }
-
-    void OnPhotonRandomJoinFailed(){
-        PhotonNetwork.CreateRoom(null);
-    }
-
-    void OnJoinedRoom(){
-       CreateMyPlayer();
+        CreateMyPlayer();
     }
 
     void CreateMyPlayer()
     {
-         _myPlayer = PhotonNetwork.Instantiate(
+        PhotonNetwork.isMessageQueueRunning = true;
+         _myPlayer = (GameObject)PhotonNetwork.Instantiate(
                         _player.name,
                         new Vector3(0f, 0f, 0f),
                         Quaternion.identity,
