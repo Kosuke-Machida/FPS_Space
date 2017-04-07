@@ -15,8 +15,16 @@ public class NetworkController : MonoBehaviour {
 		Application.LoadLevelAsync ("Main");
 	}
 
-	void OnPhotonRandomJoinFailed()
+	void OnPhotonRandomJoinFailed ()
 	{
-		PhotonNetwork.CreateRoom(null);
+		RoomOptions roomOptions = new RoomOptions();
+		ExitGames.Client.Photon.Hashtable roomHash = new ExitGames.Client.Photon.Hashtable();
+		roomHash.Add("PositionNumber", 0);
+		roomOptions.MaxPlayers = 4;
+    	roomOptions.IsOpen = true;
+    	roomOptions.IsVisible = true;
+		roomOptions.CustomRoomProperties = roomHash;
+
+		PhotonNetwork.CreateRoom(null, roomOptions, null);
 	}
 }
