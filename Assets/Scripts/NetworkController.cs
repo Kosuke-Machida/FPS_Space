@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NetworkController : MonoBehaviour {
-
-	[SerializeField] private GameObject _confirmationGUI;
-	private ConfirmationGUIManager _confirmationGUIManager;
-
 	void Start ()
 	{
 		PhotonNetwork.ConnectUsingSettings("0.1");
@@ -15,8 +11,6 @@ public class NetworkController : MonoBehaviour {
 	void OnJoinedRoom ()
 	{
 		PhotonNetwork.isMessageQueueRunning = false;
-		_confirmationGUIManager = _confirmationGUI.GetComponent<ConfirmationGUIManager>();
-		_confirmationGUIManager.SetUpGUI();
 	}
 
 	public static void CreateRoom (string name)

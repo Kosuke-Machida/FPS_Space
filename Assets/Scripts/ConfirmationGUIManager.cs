@@ -10,12 +10,18 @@ public class ConfirmationGUIManager : MonoBehaviour {
 	[SerializeField] private Text _isOpen;
 	[SerializeField] private Text _isVisible;
 	[SerializeField] private Button _gameStartButton;
+	private ConfirmationGUIManager _confirmationGUIManager;
 
 	void Start ()
 	{
 		_gameStartButton.onClick.AddListener (() => {
 			Application.LoadLevelAsync ("Main");
         });
+	}
+
+	void OnReceivedRoomListUpdate ()
+	{
+		_confirmationGUIManager = gameObject.GetComponent<ConfirmationGUIManager>();
 	}
 
 	public void SetUpGUI ()
